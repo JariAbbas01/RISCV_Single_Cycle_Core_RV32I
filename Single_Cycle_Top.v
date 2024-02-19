@@ -13,8 +13,8 @@ module Single_Cycle_Top(clk, reset);
 input clk, reset;
 
 // Interim Signals
-wire [31:0] instr, PC_Plus_4, PC_out, RD_1_top, RD_2_top, ImmExtend_top, srcB, ALU_result_top, DM_RD, PC_Mux_out, Final_result, BT;
-wire regWrite, ALUSrc, zero, MemWrite, MemReg, PCSrc, branch_out, Branch;
+wire [31:0] instr, PC_Plus_4, PC_out, RD_1_top, RD_2_top, ImmExtend_top, srcB, MUXBDM_OUT, ALU_result_top, DM_RD, PC_Mux_out, Final_result, BT;
+wire regWrite, ALUSrc, zero, MemWrite, MemReg, PCSrc, branch_out, Branch, Jump;
 wire [1:0] ImmSrc, ResultSrc, ALU_Op;
 wire [2:0] ALU_Control_top;
 
@@ -38,10 +38,12 @@ Branch_Target Branch_Target(
     .BranchTarget(BT)
     );
 
+
+
 MUX Mux_PC(
     .a(PC_Plus_4),
     .b(BT),
-    .s(branch_out && Branch),
+    .s((branch_out && Branch) || Jump),
     .o(PC_Mux_out)
 );
 
@@ -93,8 +95,18 @@ Data_Memory Data_Memory(
     .RD(DM_RD)
     );
 
-MUX MUX_after_DM(
+
+MUX MUX_Before_DM(
     .a(ALU_result_top),
+    .b(PC_Plus_4),
+    .s(Jump),
+    .o(MUXBDM_OUT)
+);
+
+
+
+MUX MUX_after_DM(
+    .a(MUXBDM_OUT),
     .b(DM_RD),
     .s(MemReg),
     .o(Final_result)
@@ -112,6 +124,7 @@ Control_unit_top Control_unit_top(
     .ALUSrc(ALUSrc), 
     .MemWrite(MemWrite), 
     .MemReg(MemReg),
+    .Jump(Jump),
     .PCSrc(PCSrc),
     .Branch(Branch),
     .ALU_Op(ALU_Op)
