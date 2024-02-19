@@ -1,6 +1,6 @@
 ### RISC32Bit-SingleCycle-Core
 
-Welcome to the RISC32Bit-SingleCycle-Core repository! This repository hosts the implementation of a 32-bit RISC-V single-cycle core, meticulously crafted to efficiently execute instructions within a single clock cycle. Rooted in the RISC-V instruction set architecture (ISA), this core is tailored for the demands of embedded system applications and educational endeavors.
+Hi! This is Jari Abbas Rizvi and Welcome to my RISC32Bit-SingleCycle-Core repository! This repository hosts the implementation of a 32-bit RISC-V single-cycle core, meticulously crafted to efficiently execute instructions within a single clock cycle. Rooted in the RISC-V instruction set architecture (ISA), this core is tailored for the demands of embedded system applications and educational endeavors.
 
 #### Instructions
 
@@ -30,10 +30,31 @@ Explore the following sequence of instructions:
 
 Dive deeper into the core's architecture:
 
-- **Decoder:** Decodes instructions, guiding them to the appropriate functional units.
-- **Immediate Extender (immExt):** Extends immediate values for I-Type instructions.
-- **ALU Decoder:** Determines ALU operation based on instruction opcode.
-- **Arithmetic Logic Unit (ALU):** Executes arithmetic and logical operations.
+**Alu_Decoder.v**: This module is responsible for decoding the ALU operation based on the instruction opcode.
+
+**ALU.v**: The ALU module performs arithmetic and logical operations based on the decoded ALU operation.
+
+**Branch_Target.v**: This module calculates the target address for branch instructions.
+
+**Control_Unit.v**: The Control Unit module generates control signals based on the instruction opcode to coordinate the execution of instructions.
+
+**Data_Memory.v**: This module represents the data memory component of the processor, responsible for storing and retrieving data.
+
+**Control_Unit_Top.v (Main_Decoder.v and ALU_Decoder.v)**: This module combines the main instruction decoder and the ALU decoder to provide comprehensive control over the processor's operations.
+
+**Imm_Ext.v**: The Immediate Extender module extends immediate values for I-Type instructions to their full width.
+
+**Instruction_Memory.v**: This module represents the instruction memory component of the processor, responsible for storing and fetching instructions.
+
+**Program_Counter.v**: This module represents the program counter component of the processor, responsible for storing the address of the next instruction to be executed.
+
+**register-File.v**: The Register File module represents the processor's register file, where data is stored temporarily for processing.
+
+**Sign-Extend.v**: The Sign Extend module extends immediate values with a sign bit to their full width.
+
+**Single_Cycle_Top.v**: This module represents the top-level design of the single-cycle processor, integrating all other modules to form a complete system.
+
+**TestBench.v**: The TestBench module provides a simulation environment for testing the functionality of the processor modules.
 
 #### Get Started
 
